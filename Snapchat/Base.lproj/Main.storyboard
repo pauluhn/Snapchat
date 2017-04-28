@@ -1,14 +1,18 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Log In View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="LogInViewController" customModule="Snapchat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -16,11 +20,204 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Snapchat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Btc-rh-9JZ">
+                                <rect key="frame" x="73.5" y="46" width="229.5" height="66"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="55"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="purple" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="loc-aZ-2Oj">
+                                <rect key="frame" x="87.5" y="210" width="200" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="LA3-fC-o4G"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4iS-uw-Fvg">
+                                <rect key="frame" x="161" y="292" width="53" height="30"/>
+                                <state key="normal" title="Turn up"/>
+                                <connections>
+                                    <action selector="turnUpButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="E85-A3-2It"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="roger@zappycode.com" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uwl-wm-DIK">
+                                <rect key="frame" x="87.5" y="158" width="200" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="Cfc-gA-0Qb"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="4iS-uw-Fvg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="DtW-bw-a4J"/>
+                            <constraint firstItem="loc-aZ-2Oj" firstAttribute="top" secondItem="uwl-wm-DIK" secondAttribute="bottom" constant="22" id="K0L-vK-sFf"/>
+                            <constraint firstItem="4iS-uw-Fvg" firstAttribute="top" secondItem="loc-aZ-2Oj" secondAttribute="bottom" constant="52" id="Kwj-fa-dit"/>
+                            <constraint firstItem="uwl-wm-DIK" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="YAv-VV-mXI"/>
+                            <constraint firstItem="Btc-rh-9JZ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="e1t-mR-wgH"/>
+                            <constraint firstItem="uwl-wm-DIK" firstAttribute="top" secondItem="Btc-rh-9JZ" secondAttribute="bottom" constant="46" id="h3F-mU-OMV"/>
+                            <constraint firstItem="loc-aZ-2Oj" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="hs6-QO-Tbb"/>
+                            <constraint firstItem="Btc-rh-9JZ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="26" id="qc0-Oh-EUZ"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="emailTextField" destination="uwl-wm-DIK" id="0Zl-ez-fpJ"/>
+                        <outlet property="passwordTextField" destination="loc-aZ-2Oj" id="U7f-6M-AQ3"/>
+                        <segue destination="hGT-y1-vdS" kind="presentation" identifier="signinsegue" id="XpF-wA-lFJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="17" y="-45"/>
+        </scene>
+        <!--Snaps View Controller-->
+        <scene sceneID="EB3-YY-qQK">
+            <objects>
+                <viewController id="LSL-JT-kw5" customClass="SnapsViewController" customModule="Snapchat" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="PCO-Rz-vF1"/>
+                        <viewControllerLayoutGuide type="bottom" id="yVl-rx-m6Q"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="oFQ-nu-bb1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="0Iu-wu-yBg">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="gQf-Pz-8Z5">
+                            <connections>
+                                <action selector="logoutTapped:" destination="LSL-JT-kw5" id="D2F-4D-tPm"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="j4Q-TC-RmA">
+                            <connections>
+                                <segue destination="VjV-eI-EiE" kind="show" id="pC6-5k-PpX"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aeE-wv-Wi9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1768.8" y="-45.42728635682159"/>
+        </scene>
+        <!--Picture View Controller-->
+        <scene sceneID="oR1-6T-ehM">
+            <objects>
+                <viewController id="VjV-eI-EiE" customClass="PictureViewController" customModule="Snapchat" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="LLt-B7-WwZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="ud6-xX-PQO"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hDw-5R-ZCj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nkI-C4-527">
+                                <rect key="frame" x="67.5" y="94" width="240" height="150"/>
+                                <color key="backgroundColor" red="0.81478340860455867" green="0.82285057106598991" blue="0.82285057106598991" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="bCy-Uv-y3Y"/>
+                                    <constraint firstAttribute="width" constant="240" id="dNc-uy-hv8"/>
+                                </constraints>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Description" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZT4-oD-huD">
+                                <rect key="frame" x="67.5" y="264" width="240" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JdB-J8-NNn">
+                                <rect key="frame" x="171" y="324" width="32" height="30"/>
+                                <state key="normal" title="Next"/>
+                                <connections>
+                                    <action selector="nextTapped:" destination="VjV-eI-EiE" eventType="touchUpInside" id="5Ut-i2-CSS"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="nkI-C4-527" firstAttribute="centerX" secondItem="hDw-5R-ZCj" secondAttribute="centerX" id="1tz-Tt-0Ie"/>
+                            <constraint firstItem="JdB-J8-NNn" firstAttribute="centerX" secondItem="hDw-5R-ZCj" secondAttribute="centerX" id="4JM-8F-Rim"/>
+                            <constraint firstItem="ZT4-oD-huD" firstAttribute="top" secondItem="nkI-C4-527" secondAttribute="bottom" constant="20" id="4eH-8o-82z"/>
+                            <constraint firstItem="ZT4-oD-huD" firstAttribute="width" secondItem="nkI-C4-527" secondAttribute="width" id="8Q7-VH-f6r"/>
+                            <constraint firstItem="nkI-C4-527" firstAttribute="top" secondItem="LLt-B7-WwZ" secondAttribute="bottom" constant="30" id="IvE-xV-C69"/>
+                            <constraint firstItem="ZT4-oD-huD" firstAttribute="centerX" secondItem="hDw-5R-ZCj" secondAttribute="centerX" id="o4b-GH-PUP"/>
+                            <constraint firstItem="JdB-J8-NNn" firstAttribute="top" secondItem="ZT4-oD-huD" secondAttribute="bottom" constant="30" id="zL7-yJ-B7d"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="9Km-jw-0HV">
+                        <barButtonItem key="rightBarButtonItem" systemItem="camera" id="6Md-Xo-gE5">
+                            <connections>
+                                <action selector="cameraTapped:" destination="VjV-eI-EiE" id="JcP-ej-sM4"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="descriptionTextField" destination="ZT4-oD-huD" id="TlP-Q0-enh"/>
+                        <outlet property="nextButton" destination="JdB-J8-NNn" id="Mwg-lm-jz3"/>
+                        <outlet property="pictureImageView" destination="nkI-C4-527" id="R2O-dY-1nx"/>
+                        <segue destination="rYw-WP-UPd" kind="show" identifier="selectedUserSegue" id="kxX-NV-6uf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tSR-sW-Tff" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2647" y="-45"/>
+        </scene>
+        <!--Select User View Controller-->
+        <scene sceneID="mis-FN-Smt">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="rYw-WP-UPd" customClass="SelectUserViewController" customModule="Snapchat" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="nPw-ja-MtI"/>
+                        <viewControllerLayoutGuide type="bottom" id="RkU-nD-9Dk"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kxW-sv-MIe">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="x9z-PQ-qBo">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="RkU-nD-9Dk" firstAttribute="top" secondItem="x9z-PQ-qBo" secondAttribute="bottom" id="Ayu-m0-emy"/>
+                            <constraint firstItem="x9z-PQ-qBo" firstAttribute="leading" secondItem="kxW-sv-MIe" secondAttribute="leading" id="BBh-RP-sNN"/>
+                            <constraint firstItem="x9z-PQ-qBo" firstAttribute="top" secondItem="nPw-ja-MtI" secondAttribute="bottom" id="WUT-yF-BEE"/>
+                            <constraint firstAttribute="trailing" secondItem="x9z-PQ-qBo" secondAttribute="trailing" id="cqr-1F-GIc"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="usersTableView" destination="x9z-PQ-qBo" id="x0S-JG-Wl7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dre-rl-RCR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3468" y="-45"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="c0A-Km-1nK">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hGT-y1-vdS" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ayD-US-rKl">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="LSL-JT-kw5" kind="relationship" relationship="rootViewController" id="imK-ma-rfj"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CD9-IN-Lx8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="829.60000000000002" y="-45.42728635682159"/>
         </scene>
     </scenes>
 </document>
