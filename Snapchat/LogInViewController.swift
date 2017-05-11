@@ -38,6 +38,9 @@ class LogInViewController: UIViewController {
                         print("We have an error: \(error)")
                     } else {
                         print("Created User Successfully")
+                        
+                        FIRDatabase.database().reference().child("users").child(user!.uid).child("email").setValue(user!.email!)
+                        
                         self.performSegue(withIdentifier: "signinsegue", sender: nil)
                     }
                 })

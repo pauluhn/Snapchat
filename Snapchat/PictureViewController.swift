@@ -17,16 +17,27 @@ class PictureViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     var imagePicker = UIImagePickerController()
     
+    var uuid = NSUUID().uuidString
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         imagePicker.delegate = self
+        
+        nextButton.isEnabled = false
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
+        
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        
         pictureImageView.image = image
+        
+        pictureImageView.backgroundColor = UIColor.clear
+
+        nextButton.isEnabled = true
+        
         imagePicker.dismiss(animated: true, completion: nil)
         
     }
@@ -34,10 +45,10 @@ class PictureViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBAction func cameraTapped(_ sender: Any) {
         // check if camera is on the device
         
-        imagePicker.sourceType = .photoLibrary
+        imagePicker.sourceType = .photoLibrary // change to camera to enable on device
+        
         imagePicker.allowsEditing = false
         present(imagePicker, animated: true, completion: nil)
-        pictureImageView.backgroundColor = UIColor.clear
         
     }
     @IBAction func nextTapped(_ sender: Any) {
@@ -52,17 +63,23 @@ class PictureViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         // UUID creates a unique identifier
         // create image called "\(NSUUID().uuidString).jpg"
-        imagesFolder.child("\(NSUUID().uuidString).jpg").put(imageData, metadata: nil, completion: {(metadata, error) in
+        imagesFolder.child("\(uuid).jpg").put(imageData, metadata: nil, completion: {(metadata, error) in
             print("we tried to upload")
             if error != nil {
-                print("we have an error: \(error)")
+                print("we have an error: \(String(describing: error))")
             } else {
-                self.performSegue(withIdentifier: "selectedUserSegue", sender: nil)
+                
+                print(metadata!.downloadURL()!)
+                
+                self.performSegue(withIdentifier: "selectedUserSegue", sender: metadata?.downloadURL()!.absoluteString)
             }
         })
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+        let nextVC = segue.destination as! SelectUserViewController
+        nextVC.imageURL = sender as! String
+        nextVC.descrip = descriptionTextField.text!
+        nextVC.uuid = uuid
     }
 }
