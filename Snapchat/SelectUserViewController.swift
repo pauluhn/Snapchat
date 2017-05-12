@@ -11,13 +11,13 @@ import Firebase
 
 class SelectUserViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    @IBOutlet var usersTableView: UITableView!
-    
-    var users : [User] = []
-    
     var imageURL = ""
     var descrip = ""
     var uuid = ""
+
+    @IBOutlet var usersTableView: UITableView!
+    
+    private var users: [User] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +28,7 @@ class SelectUserViewController: UIViewController, UITableViewDelegate, UITableVi
         FIRDatabase.database().reference().child("users").observe(FIRDataEventType.childAdded, with: { (snapshot) in
             
 //            print(snapshot.value!["email"]) as! String // Error
-            print((snapshot.value as? NSDictionary)?["email"] as! String)
+            print((snapshot.value as? NSDictionary)?["email"] as! String) // TODO: get email without using !
             
             let user = User()
             user.email = (snapshot.value as? NSDictionary)?["email"] as! String
@@ -46,7 +46,7 @@ class SelectUserViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+        // TODO: use reusable cells
         let cell = UITableViewCell()
         
         let user = users[indexPath.row]
