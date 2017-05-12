@@ -9,11 +9,15 @@
 import UIKit
 import Firebase
 
+private let kCellIdentifier = "SnapsCellIdentifier"
+private let kSegueIdentifier = "viewSnapSegue"
+
 class SnapsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet var tableView: UITableView!
     
-    var snaps : [Snap] = []
+    private var snaps: [Snap] = []
+    private var ref = FIRDatabase.database().reference().child("users").child(FIRAuth.auth()!.currentUser!.uid).child("snaps")
     
     @IBAction func logoutTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
@@ -24,7 +28,7 @@ class SnapsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.delegate = self
         tableView.dataSource = self
         
-        FIRDatabase.database().reference().child("users").child(FIRAuth.auth()!.currentUser!.uid).child("snaps").observe(FIRDataEventType.childAdded, with: { (snapshot) in
+        ref.observe(FIRDataEventType.childAdded, with: { (snapshot) in
             
             print(snapshot)
             
@@ -39,7 +43,7 @@ class SnapsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             self.tableView.reloadData()
         })
         
-        FIRDatabase.database().reference().child("users").child(FIRAuth.auth()!.currentUser!.uid).child("snaps").observe(FIRDataEventType.childRemoved, with: { (snapshot) in
+        ref.observe(FIRDataEventType.childRemoved, with: { (snapshot) in
             
             print(snapshot)
             
@@ -57,10 +61,9 @@ class SnapsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: kCellIdentifier, for: indexPath)
         
-        let cell = UITableViewCell()
-        
-        if snaps.count == 0 {
+        if snaps.isEmpty {
             cell.textLabel?.text = "You have no snaps 😢"
         } else {
 
@@ -74,7 +77,7 @@ class SnapsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if snaps.count == 0 {
+        if snaps.isEmpty {
             return 1
         } else {
             return snaps.count
@@ -83,16 +86,23 @@ class SnapsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        guard !snaps.isEmpty else { return } // fix bug where you tap the "You have no snaps" row
         
         let snap = snaps[indexPath.row]
         
-        performSegue(withIdentifier: "viewSnapSegue", sender: snap)
+        performSegue(withIdentifier: kSegueIdentifier, sender: snap)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "viewSnapSegue" {
-            let nextVC = segue.destination as! ViewSnapsViewController
-            nextVC.snap = sender as! Snap
+        if segue.identifier == kSegueIdentifier {
+            guard let nextVC = segue.destination as? ViewSnapsViewController,
+                let snap = sender as? Snap else {
+                    print("Could not unwrap VC(\(segue.destination)) as ViewSnapsViewController or sender(\(sender ?? "nil") as Snap)")
+                    return
+            }
+            nextVC.snap = snap
         }
     }
     
