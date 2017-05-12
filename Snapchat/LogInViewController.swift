@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 
+private let kSegueIdentifier = "signinsegue"
 class LogInViewController: UIViewController {
 
     @IBOutlet var emailTextField: UITextField!
@@ -25,31 +26,67 @@ class LogInViewController: UIViewController {
     }
 
     @IBAction func turnUpButtonTapped(_ sender: Any) {
-        
-        FIRAuth.auth()?.signIn(withEmail: emailTextField.text!, password: passwordTextField.text!, completion: { (user, error) in
-            print("We tried to sign in")
-            if error != nil {
-                print("Hey we have an error: \(error)!")
-                
-                FIRAuth.auth()?.createUser(withEmail: self.emailTextField.text!, password: self.passwordTextField.text!, completion: { (user, error) in
-                    print("We tried to create a user")
-                    
-                    if error != nil {
-                        print("We have an error: \(error)")
-                    } else {
-                        print("Created User Successfully")
-                        
-                        FIRDatabase.database().reference().child("users").child(user!.uid).child("email").setValue(user!.email!)
-                        
-                        self.performSegue(withIdentifier: "signinsegue", sender: nil)
-                    }
-                })
-            } else {
-                print("Signed in Successfully")
-                self.performSegue(withIdentifier: "signinsegue", sender: nil)
-            }
-        })
+        signIn()
     }
-
+    
+    private func signIn() {
+        FIRAuth.auth()?.signIn(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
+            print("We tried to sign in")
+            
+            guard let userUnwrapped = user else {
+                print("Hey we have an error: \(error?.localizedDescription ?? "nil")!")
+                self.signInError(error)
+                return
+            }
+            
+            print("Signed in Successfully as: \(userUnwrapped.uid)")
+            self.performSegue(withIdentifier: kSegueIdentifier, sender: nil)
+        }
+    }
+    
+    private func signInError(_ error: Error?) {
+        switch errorCode(error) {
+            
+        case .errorCodeUserNotFound?:
+            print("No user. We should try to create it")
+            createUser()
+            
+        case .errorCodeWrongPassword?:
+            print("Wrong password")
+            
+        default:
+            print("Error not processed: \(error?.localizedDescription ?? "nil")!")
+        }
+    }
+    
+    private func createUser() {
+        FIRAuth.auth()?.createUser(withEmail: self.emailTextField.text!, password: self.passwordTextField.text!) { (user, error) in
+            print("We tried to create a user")
+            
+            guard let userUnwrapped = user else {
+                print("Hey we have an error: \(error?.localizedDescription ?? "nil")!")
+                return
+            }
+            
+            print("Created User Successfully")
+            
+            guard let emailUnwrapped = userUnwrapped.email else {
+                print("Could not unwrap user email")
+                return
+            }
+            
+            FIRDatabase.database().reference().child("users").child(userUnwrapped.uid).child("email").setValue(emailUnwrapped)
+            
+            self.performSegue(withIdentifier: kSegueIdentifier, sender: nil)
+        }
+    }
+    
+    private func errorCode(_ error: Error?) -> FIRAuthErrorCode? {
+        guard let errorUwrapped = error else {
+            // no error
+            return nil
+        }
+        return FIRAuthErrorCode(rawValue: (errorUwrapped as NSError).code)
+    }
 }
 
