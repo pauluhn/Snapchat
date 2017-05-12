@@ -9,15 +9,16 @@
 import UIKit
 import Firebase
 
+private let kSegueIdentifier = "selectedUserSegue"
 class PictureViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet var nextButton: UIButton!
     @IBOutlet var pictureImageView: UIImageView!
     @IBOutlet var descriptionTextField: UITextField!
     
-    var imagePicker = UIImagePickerController()
+    private var imagePicker = UIImagePickerController()
     
-    var uuid = NSUUID().uuidString
+    private var uuid = UUID().uuidString
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +35,7 @@ class PictureViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         pictureImageView.image = image
         
-        pictureImageView.backgroundColor = UIColor.clear
+        pictureImageView.backgroundColor = .clear
 
         nextButton.isEnabled = true
         
@@ -43,9 +44,9 @@ class PictureViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     @IBAction func cameraTapped(_ sender: Any) {
-        // check if camera is on the device
+        // TODO: check if camera is on the device
         
-        imagePicker.sourceType = .photoLibrary // change to camera to enable on device
+        imagePicker.sourceType = .photoLibrary // TODO: change to camera to enable on device
         
         imagePicker.allowsEditing = false
         present(imagePicker, animated: true, completion: nil)
@@ -59,27 +60,40 @@ class PictureViewController: UIViewController, UIImagePickerControllerDelegate, 
         let imagesFolder = FIRStorage.storage().reference().child("images")
         
         // convert image selected to a jpg representation
-        let imageData = UIImageJPEGRepresentation(pictureImageView.image!, 0.1)!
+        guard let imageData = UIImageJPEGRepresentation(pictureImageView.image!, 0.1) else {
+            print("Could not get image data")
+            return
+        }
         
         // UUID creates a unique identifier
-        // create image called "\(NSUUID().uuidString).jpg"
-        imagesFolder.child("\(uuid).jpg").put(imageData, metadata: nil, completion: {(metadata, error) in
+        // create image called "\(UUID().uuidString).jpg"
+        imagesFolder.child("\(uuid).jpg").put(imageData, metadata: nil) { (metadata, error) in
             print("we tried to upload")
-            if error != nil {
+            
+            guard let metadataUnwrapped = metadata else {
                 print("we have an error: \(String(describing: error))")
-            } else {
-                
-                print(metadata!.downloadURL()!)
-                
-                self.performSegue(withIdentifier: "selectedUserSegue", sender: metadata?.downloadURL()!.absoluteString)
+                return
             }
-        })
+            guard let url = metadataUnwrapped.downloadURL() else {
+                print("we have a problem with the url: \(String(describing: metadataUnwrapped.downloadURL()))")
+                return
+            }
+            print(url)
+            
+            self.performSegue(withIdentifier: kSegueIdentifier, sender: url.absoluteString)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let nextVC = segue.destination as! SelectUserViewController
-        nextVC.imageURL = sender as! String
-        nextVC.descrip = descriptionTextField.text!
-        nextVC.uuid = uuid
+        if segue.identifier == kSegueIdentifier {
+            guard let nextVC = segue.destination as? SelectUserViewController,
+                let url = sender as? String else {
+                    print("Could not unwrap VC(\(segue.destination)) as SelectUserViewController or sender(\(sender ?? "nil") as String)")
+                    return
+            }
+            nextVC.imageURL = url
+            nextVC.descrip = descriptionTextField.text!
+            nextVC.uuid = uuid
+        }
     }
 }
